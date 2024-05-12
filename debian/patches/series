@@ -1,0 +1,4 @@
+addcmake.patch
+add_config.patch
+tweakcmake.patch
+python3.patch

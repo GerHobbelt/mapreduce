@@ -1,0 +1,23 @@
+Document: mrmpi-doc
+Title: MapReduce-MPI Library Users Manual
+Author: Sandia National Laboratories
+Abstract: The MapReduce-MPI (MR-MPI) library is open-source software that
+ implements the "MapReduce operation" popularized by Google on top
+ of standard MPI message passing.
+ .
+ The library is designed for parallel execution on distributed-memory
+ platforms, but will also operate on a single processor.  It requires
+ no additional software to build and run, except linking with an MPI
+ library if you wish to perform MapReduces in parallel.  Similar to the
+ original Google design, a user performs a MapReduce by writing a small
+ program that invokes the library.  The user typically provides two
+ application-specific functions, a "map()" and a "reduce()", that are
+ called back from the library when a MapReduce operation is executed.
+ "Map()" and "reduce()" are serial functions, meaning they are invoked
+ independently on individual processors on portions of your data when
+ performing a MapReduce operation in parallel.
+Section: Science/Data Analysis
+
+Format: HTML
+Index: /usr/share/doc/mrmpi-doc/Manual.html
+Files: /usr/share/doc/mrmpi-doc/*.html

@@ -1,0 +1,77 @@
+Source: mrmpi
+Maintainer: Debian Science Team <debian-science-maintainers@lists.alioth.debian.org>
+Uploaders: Dominique Belhachemi <domibel@debian.org>
+Section: devel
+Priority: optional
+Build-Depends: debhelper-compat (= 12),
+               cmake,
+               mpi-default-dev
+Build-Depends-Indep: htmldoc,
+                     python3
+Standards-Version: 4.1.3
+Vcs-Browser: https://salsa.debian.org/science-team/mrmpi
+Vcs-Git: https://salsa.debian.org/science-team/mrmpi.git
+Homepage: http://mapreduce.sandia.gov/
+Rules-Requires-Root: no
+
+Package: libmrmpi-dev
+Architecture: any
+Section: libdevel
+Depends: libmrmpi1 (= ${binary:Version}),
+         ${misc:Depends}
+Description: Implements MapReduce operation on top of standard MPI message - development
+ The MapReduce-MPI (MR-MPI) library is open-source software that implements the
+ MapReduce operation popularized by Google on top of standard MPI message
+ passing.
+ .
+ The MR-MPI library is written in C++ and is callable from hi-level languages
+ such as C++, C, Fortran. A Python wrapper is also included, so MapReduce
+ programs can be written in Python, including map() and reduce() user callback
+ methods. A hi-level scripting interface to the MR-MPI library, called OINK, is
+ also included which can be used to develop and chain MapReduce algorithms
+ together in scripts with commands that simplify data management tasks. OINK has
+ its own manual and doc pages.
+ .
+ This package contains development files needed to build MapReduce-MPI
+ applications.
+
+Package: libmrmpi1
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: Implements MapReduce operation on top of standard MPI message - runtime
+ The MapReduce-MPI (MR-MPI) library is open-source software that implements the
+ MapReduce operation popularized by Google on top of standard MPI message
+ passing.
+ .
+ The MR-MPI library is written in C++ and is callable from hi-level languages
+ such as C++, C, Fortran. A Python wrapper is also included, so MapReduce
+ programs can be written in Python, including map() and reduce() user callback
+ methods. A hi-level scripting interface to the MR-MPI library, called OINK, is
+ also included which can be used to develop and chain MapReduce algorithms
+ together in scripts with commands that simplify data management tasks. OINK has
+ its own manual and doc pages.
+ .
+ This package contains the libraries needed to run MapReduce-MPI applications.
+
+Package: mrmpi-doc
+Architecture: all
+Section: doc
+Depends: ${misc:Depends},
+         doc-base
+Description: Implements MapReduce operation on top of standard MPI message - doc
+ The MapReduce-MPI (MR-MPI) library is open-source software that implements the
+ MapReduce operation popularized by Google on top of standard MPI message
+ passing.
+ .
+ The MR-MPI library is written in C++ and is callable from hi-level languages
+ such as C++, C, Fortran. A Python wrapper is also included, so MapReduce
+ programs can be written in Python, including map() and reduce() user callback
+ methods. A hi-level scripting interface to the MR-MPI library, called OINK, is
+ also included which can be used to develop and chain MapReduce algorithms
+ together in scripts with commands that simplify data management tasks. OINK has
+ its own manual and doc pages.
+ .
+ This package contains the documentation for MapReduce-MPI libraries.

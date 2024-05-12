@@ -1,0 +1,107 @@
+Author: Mathieu Malaterre
+Last-Update: 2011-10-26 18:32:41 +0000
+Description: This is a shameless copy of the original VTK packaging
+ MapReduce-MPI is shipped as convenient copy within VTK
+
+--- /dev/null
++++ b/CMakeLists.txt
+@@ -0,0 +1,21 @@
++PROJECT (MAPREDUCE)
++
++IF (VTK_USE_MPI)
++  INCLUDE_DIRECTORIES(${MPI_INCLUDE_PATH})
++  ADD_DEFINITIONS("-DMPICH_IGNORE_CXX_SEEK")
++  IF (MPI_LIBRARY)
++    SET (mrmpi_LIBS "${MPI_LIBRARY}")
++  ELSE (MPI_LIBRARY)
++    MESSAGE("Could not find the required MPI libraries")
++  ENDIF (MPI_LIBRARY)
++  IF (MPI_EXTRA_LIBRARY)   
++    SET(mrmpi_LIBS ${mrmpi_LIBS} "${MPI_EXTRA_LIBRARY}")   
++  ENDIF (MPI_EXTRA_LIBRARY) 
++ELSE (VTK_USE_MPI)
++  SET (mrmpi_LIBS mpistubs)
++  INCLUDE_DIRECTORIES(mrmpi ${VTK_SOURCE_DIR}/Utilities/mrmpi/mpistubs)
++  ADD_SUBDIRECTORY (mpistubs)
++ENDIF (VTK_USE_MPI)
++
++ADD_SUBDIRECTORY (src)
++#ADD_SUBDIRECTORY (examples)
+--- /dev/null
++++ b/examples/CMakeLists.txt
+@@ -0,0 +1,10 @@
++SET (example_LIBS mrmpi)
++
++SET (wordfreq_SOURCES wordfreq.cpp)
++ADD_EXECUTABLE (wordfreq ${wordfreq_SOURCES})
++TARGET_LINK_LIBRARIES (wordfreq ${example_LIBS})
++
++SET (rmat_SOURCES rmat.cpp)
++ADD_EXECUTABLE (rmat ${rmat_SOURCES})
++INCLUDE_DIRECTORIES(rmat ${VTK_SOURCE_DIR}/Utilities/mrmpi/src)
++TARGET_LINK_LIBRARIES (rmat ${example_LIBS})
+--- /dev/null
++++ b/mpistubs/CMakeLists.txt
+@@ -0,0 +1,22 @@
++SET (mpistubs_SOURCES mpi.cpp)
++
++VTK_ADD_LIBRARY (mpistubs ${mpistubs_SOURCES})
++TARGET_LINK_LIBRARIES (mpistubs vtksys)
++IF(VTK_LIBRARY_PROPERTIES)
++  SET_TARGET_PROPERTIES(mpistubs PROPERTIES ${VTK_LIBRARY_PROPERTIES})
++ENDIF(VTK_LIBRARY_PROPERTIES)
++
++IF(NOT VTK_INSTALL_NO_LIBRARIES)
++  INSTALL(TARGETS mpistubs
++    EXPORT ${VTK_INSTALL_EXPORT_NAME}
++    RUNTIME DESTINATION ${VTK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
++    LIBRARY DESTINATION ${VTK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
++    ARCHIVE DESTINATION ${VTK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
++ENDIF(NOT VTK_INSTALL_NO_LIBRARIES)
++
++IF(NOT VTK_INSTALL_NO_DEVELOPMENT)
++  INSTALL(FILES
++    ${CMAKE_CURRENT_SOURCE_DIR}/mpi.h
++    DESTINATION ${VTK_INSTALL_INCLUDE_DIR_CM24}/mrmpi
++    COMPONENT Development)
++ENDIF(NOT VTK_INSTALL_NO_DEVELOPMENT)
+--- /dev/null
++++ b/src/CMakeLists.txt
+@@ -0,0 +1,37 @@
++SET (mrmpi_SOURCES
++        mapreduce.cpp
++        keyvalue.cpp
++        keymultivalue.cpp
++        irregular.cpp
++        hash.cpp
++        memory.cpp
++        error.cpp)
++
++VTK_ADD_LIBRARY (MapReduceMPI ${mrmpi_SOURCES})
++TARGET_LINK_LIBRARIES (MapReduceMPI ${mrmpi_LIBS})
++IF(VTK_LIBRARY_PROPERTIES)
++  SET_TARGET_PROPERTIES(MapReduceMPI PROPERTIES ${VTK_LIBRARY_PROPERTIES})
++ENDIF(VTK_LIBRARY_PROPERTIES)
++
++IF(NOT VTK_INSTALL_NO_LIBRARIES)
++  INSTALL(TARGETS MapReduceMPI
++    EXPORT ${VTK_INSTALL_EXPORT_NAME}
++    RUNTIME DESTINATION ${VTK_INSTALL_BIN_DIR_CM24} COMPONENT RuntimeLibraries
++    LIBRARY DESTINATION ${VTK_INSTALL_LIB_DIR_CM24} COMPONENT RuntimeLibraries
++    ARCHIVE DESTINATION ${VTK_INSTALL_LIB_DIR_CM24} COMPONENT Development)
++ENDIF(NOT VTK_INSTALL_NO_LIBRARIES)
++
++IF(NOT VTK_INSTALL_NO_DEVELOPMENT)
++  INSTALL(FILES
++    ${CMAKE_CURRENT_SOURCE_DIR}/cmapreduce.h
++    ${CMAKE_CURRENT_SOURCE_DIR}/error.h
++    ${CMAKE_CURRENT_SOURCE_DIR}/hash.h
++    ${CMAKE_CURRENT_SOURCE_DIR}/irregular.h
++    ${CMAKE_CURRENT_SOURCE_DIR}/keymultivalue.h
++    ${CMAKE_CURRENT_SOURCE_DIR}/keyvalue.h
++    ${CMAKE_CURRENT_SOURCE_DIR}/mapreduce.h
++    ${CMAKE_CURRENT_SOURCE_DIR}/memory.h
++    ${CMAKE_CURRENT_SOURCE_DIR}/mrmpi_config.h
++    DESTINATION ${VTK_INSTALL_INCLUDE_DIR_CM24}/mrmpi
++    COMPONENT Development)
++ENDIF(NOT VTK_INSTALL_NO_DEVELOPMENT)

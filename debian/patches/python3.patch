@@ -1,0 +1,11 @@
+--- a/oinkdoc/Manual.py
++++ b/oinkdoc/Manual.py
+@@ -6,7 +6,7 @@
+ # invoked by PDFgen.sh when PDF of doc pages is created
+ # Syntax: Manual.py
+ 
+-import sys,os,glob,commands,re
++import sys,os,glob,re
+ 
+ # mtxt, etc = contents of source files
+ 

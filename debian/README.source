@@ -1,0 +1,9 @@
+This MRMPI release is a custom repackaged of MRMPI. This package does not
+contains neither the upstream *.html nor the *.pdf files. Both HTML and PDF
+files are regenerated from the *.txt files.
+
+Since the documentation required a 3rd party txt2html (different from txt2html
+package), we are including this single .cpp file as part of the MRMPI release.
+We are building this custom txt2html during the -indep step.
+
+ -- Mathieu Malaterre <mathieu.malaterre@gmail.com>  Thu, 15 Dec 2011 10:38:11 +0100
